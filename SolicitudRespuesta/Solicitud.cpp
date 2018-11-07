@@ -36,13 +36,20 @@ char * Solicitud::doOperation(char* IP, int puerto, int operationId, char* argum
 	//SocketDatagrama socket(puerto);
 	PaqueteDatagrama paq((char*) &msj, sizeof(msj), IP, puerto);
 
-	socketlocal->envia(paq);
-	cout << "Llego a esta linea" << endl;
+	int n = -1;
+	int i;
+	for (i = 0; i < 7, n == -1, i++) {
+		socketlocal->envia(paq);
+		//cout << "Llego a esta linea" << endl;
 
-	PaqueteDatagrama paq1(sizeof(msj));
-	socketlocal->recibe(paq1);
+		PaqueteDatagrama paq1(sizeof(msj));
+		n = socketlocal->recibe(paq1);
+	}
 
-
+	if (i == 7) {
+		cout << "Servidor no disponible, intente más tarde..." << endl;
+		return NULL;
+	}
 
 	char* resultado;
 	resultado = paq1.obtieneDatos();
